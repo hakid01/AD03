@@ -1,6 +1,7 @@
 package com.accesodatos.xestion;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -13,6 +14,10 @@ import java.sql.Connection;
  */
 public class CustomerCreateDialog extends javax.swing.JDialog {
 
+    ArrayList<String> emailsCustomers = new ArrayList<>();
+    
+    Connection con = null;
+    String db = "xestionAppDB.db";
     /**
      * Creates new form NewCustomerDialog
      */
@@ -138,30 +143,32 @@ public class CustomerCreateDialog extends javax.swing.JDialog {
         String surname = txtFSurname.getText();
         String email = txtFEmail.getText();
         System.out.println("name: " + name);
+        
+        con = DB.connectDatabase(db);
+
+        emailsCustomers=DB.getEmailsCustomers(con);
+
+        DB.desconnetDatabase(con);
 
         if (name.isEmpty() || surname.isEmpty() || email.isEmpty()) {
             lbError.setText("Rellena todos los campos");
         } else {
             if (!ValidarCampos.validarNombre(name)) {
                 lbError.setText("Nombre incorrecto");
-            } 
-            else if (!ValidarCampos.validarNombre(surname)) {
+            } else if (!ValidarCampos.validarNombre(surname)) {
                 lbError.setText("Apellido o apellidos incorrectos");
-            } 
-            else if (!ValidarCampos.validarEmail(email)) {
+            } else if (!ValidarCampos.validarEmail(email)) {
                 lbError.setText("Email incorrecto");
-            } 
-            else {
-
-                Connection con = null;
-                String db = "xestionAppDB.db";
-
+            } else if (emailsCustomers.contains(email)) {
+                lbError.setText("Ese email ya está registrado.");
+            } else {
+                
                 con = DB.connectDatabase(db);
 
                 DB.insertCustomer(con, name, surname, email);
 
                 DB.desconnetDatabase(con);
-                
+
                 dispose();
             }
         }

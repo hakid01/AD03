@@ -267,8 +267,10 @@ public class xestionAppMainForm extends javax.swing.JFrame {
 
         while (it.hasNext()) {
             Province tempProvince = (Province) it.next();
+            System.out.println("provincia: " + tempProvince.toString());
             DB.insertProvince(con, Integer.valueOf(tempProvince.getId()), tempProvince.getNome());
         }
         System.err.println(provincias.toString());
+        DB.desconnetDatabase(con);
     }
 }

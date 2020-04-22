@@ -303,6 +303,28 @@ public class DB {
         }
         return customers;
     }
+    
+    public static ArrayList<String> getEmailsCustomers(Connection con) {
+
+        ArrayList<String> emailCustomers = new ArrayList<>();
+
+        try {
+            Statement statement = con.createStatement();
+
+            //Probamos a realizar unha consulta
+            ResultSet rs = statement.executeQuery("select email from customers");
+            System.out.println("antes del while");
+            while (rs.next()) {
+                //imprimimos o nome de todolas persoas
+                String email = rs.getString("email");
+                System.out.println("Cliente email: " + email);
+                emailCustomers.add(email);
+            }
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }
+        return emailCustomers;
+    }
 
     public static ArrayList<String> getEmployees(Connection con) {
 
