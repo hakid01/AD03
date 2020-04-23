@@ -393,7 +393,7 @@ public class DB {
                 String description = rs.getString("description");
                 double price = rs.getDouble("price");
                 System.out.println("Producto: " + id + " - " + name + " " + description + " -> " + price);
-                items.add("" + id + " - " + name + " -> " + price + "€." + description + ")");
+                items.add("" + id + " - " + name + " -> " + price + "€. Descripción: " + description);
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage());
